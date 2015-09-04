@@ -11,16 +11,6 @@ class TorrentFile:
         self.__data = data
         self.__data_length = len(data)
 
-    def __iter__(self):
-        return self
-
-    def __next__(self):
-        if not self.__valid_index():
-            raise StopIteration()
-        index = self.__index
-        self.__index += 1
-        return self.__data[index]
-
     def parse(self):
         result = self.__read_next()
         self.__index = 0
@@ -37,8 +27,15 @@ class TorrentFile:
             index = self.__index
         return index < self.__data_length
 
+    def __next(self):
+        if not self.__valid_index():
+            raise Exception('EOF')
+        index = self.__index
+        self.__index += 1
+        return self.__data[index]
+
     def __assert_next(self, value):
-        c = chr(next(self))
+        c = chr(self.__next())
         assert value == c, (value, c)
 
     def __not(self, value):
@@ -49,18 +46,18 @@ class TorrentFile:
     def __read_string(self):
         length_string = ''
         while self.__valid_index() and chr(self.__data[self.__index]).isdigit():
-            length_string += chr(next(self))
+            length_string += chr(self.__next())
         assert length_string.isdigit(), length_string
         length = int(length_string)
         assert length >= 0, length
         self.__assert_next(':')
-        return ''.join([chr(next(self)) for __ in range(length)])
+        return ''.join([chr(self.__next()) for __ in range(length)])
 
     def __read_int(self):
         self.__assert_next('i')
         result = ''
         while self.__not('e'):
-            result += chr(next(self))
+            result += chr(self.__next())
         self.__assert_next('e')
         assert result.isdigit(), result
         return int(result)
