@@ -8,10 +8,8 @@ Usage
 
 .. code:: python
 
-    import torrentfile
-    torrentfile = TorrentFile('./path/to/some.torrent')
-    pprint.pprint(torrentfile.parse(), compact=True, width=120)
-
+    torrent_data = TorrentFile('./path/to/some.torrent').parse()
+    pprint(torrent_data, compact=True, width=120)
 
 Notes
 -----
