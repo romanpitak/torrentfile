@@ -1,9 +1,21 @@
-# -*- coding: utf-8 -*-
+"""
+TorrentFile module
+"""
+__author__ = "Roman Piták <roman@pitak.net>"
+__version__ = "$Revision$"
 
 
 class TorrentFile:
+    """TorrentFile class.
+
+    """
 
     def __init__(self, file_name):
+        """TorrentFile
+
+        Args:
+            file_name (str): Torrent file name
+        """
         with open(file_name, 'rb') as file_handle:
             data = file_handle.read()
 
@@ -12,6 +24,11 @@ class TorrentFile:
         self.__data_length = len(data)
 
     def parse(self):
+        """Runs the parser
+
+        Returns:
+            dict
+        """
         result = self.__read_next()
         self.__index = 0
         return result
