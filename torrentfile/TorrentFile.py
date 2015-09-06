@@ -24,9 +24,24 @@ class List(list):
         return 'l{}e'.format(content)
 
 
+class Pieces(String):
+
+    def __init__(self, data: String):
+        super().__init__()
+        self.data = [data[x:x+20] for x in range(0, len(data), 20)]
+
+    def __repr__(self):
+        return 'PIECES...'
+
+
 class Dict(dict):
 
-    def bencode(self):
+    def __setitem__(self, key, value):
+        if 'pieces' == key and not isinstance(value, Pieces):
+            value = Pieces(value)
+        super().__setitem__(key, value)
+
+    def bencode(self) -> str:
         """bencode the object
 
         Represents the object as a string adhering to the specification
@@ -132,10 +147,7 @@ def bdecode(data: bytes):
         while not_('e'):
             key = read_next()
             assert isinstance(key, String), key
-            value = read_next()
-            if 'pieces' == key:  # TODO deal with the pieces
-                    value = String()
-            result[key] = value
+            result[key] = read_next()
         assert_next('e')
         return result
 
