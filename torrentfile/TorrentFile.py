@@ -9,9 +9,7 @@ class TorrentFile:
     """TorrentFile class."""
 
     def __init__(self, data: bytes):
-        self.__index = 0
         self.__data = data
-        self.__data_length = len(data)
 
     @classmethod
     def load(cls, file_name: str):
@@ -32,88 +30,84 @@ class TorrentFile:
         Returns:
             dict
         """
-        result = self.__read_next()
-        self.__index = 0
-        return result
+        return bdecode(self.__data)
 
-    #
-    # Private
-    #
 
-    # helpers
+def bdecode(data: bytes, index: int = 0):
+    data_length = len(data)
 
-    def __valid_index(self, index=None):
-        if not index:
-            index = self.__index
-        return index < self.__data_length
+    def valid_index():
+        return index < data_length
 
-    def __next(self):
-        if not self.__valid_index():
+    def next_():
+        nonlocal index
+        if not valid_index():
             raise Exception('EOF')
-        index = self.__index
-        self.__index += 1
-        return self.__data[index]
+        return_index = index
+        index += 1
+        return data[return_index]
 
-    def __assert_next(self, value):
-        c = chr(self.__next())
+    def assert_next(value):
+        c = chr(next_())
         assert value == c, (value, c)
 
-    def __not(self, value):
-        return self.__valid_index() and value != chr(self.__data[self.__index])
+    def not_(value):
+        return valid_index() and value != chr(data[index])
 
-    # parsers
-
-    def __read_string(self):
+    def read_string():
         length_string = ''
-        while self.__valid_index() and chr(self.__data[self.__index]).isdigit():
-            length_string += chr(self.__next())
+        while valid_index() and chr(data[index]).isdigit():
+            length_string += chr(next_())
         assert length_string.isdigit(), length_string
         length = int(length_string)
         assert length >= 0, length
-        self.__assert_next(':')
-        return ''.join([chr(self.__next()) for __ in range(length)])
+        assert_next(':')
+        return ''.join([chr(next_()) for __ in range(length)])
 
-    def __read_int(self):
-        self.__assert_next('i')
+    def read_int():
+        assert_next('i')
         result = ''
-        while self.__not('e'):
-            result += chr(self.__next())
-        self.__assert_next('e')
+        while not_('e'):
+            result += chr(next_())
+        assert_next('e')
         assert result.isdigit(), result
         return int(result)
 
-    def __read_list(self):
-        self.__assert_next('l')
+    def read_list():
+        assert_next('l')
         result = []
-        while self.__not('e'):
-            result.append(self.__read_next())
-        self.__assert_next('e')
+        while not_('e'):
+            result.append(read_next())
+        assert_next('e')
         return result
 
-    def __read_dictionary(self):
-        self.__assert_next('d')
+    def read_dictionary():
+        assert_next('d')
         result = {}
-        while self.__not('e'):
-            key = self.__read_next()
+        while not_('e'):
+            key = read_next()
             assert isinstance(key, str), key
-            value = self.__read_next()
+            value = read_next()
             if 'pieces' == key:  # TODO deal with the pieces
                     value = None
             result[key] = value
-        self.__assert_next('e')
+        assert_next('e')
         return result
 
-    def __read_next(self):
-        if not self.__valid_index():
+    def read_next():
+        if not valid_index():
             return None  # TODO raise here?
-        c = chr(self.__data[self.__index])
+        c = chr(data[index])
         if c.isdigit():
-            return self.__read_string()
+            return read_string()
         elif 'l' == c:
-            return self.__read_list()
+            return read_list()
         elif 'i' == c:
-            return self.__read_int()
+            return read_int()
         elif 'd' == c:
-            return self.__read_dictionary()
+            return read_dictionary()
         else:
             raise Exception(c)
+
+    return read_next()
+
