@@ -5,11 +5,30 @@ __author__ = "Roman Piták <roman@pitak.net>"
 __version__ = "$Revision$"
 
 
-class TorrentFile:
+class String(str):
+    pass
+
+
+class Int(int):
+    pass
+
+
+class List(list):
+    pass
+
+
+class Dict(dict):
+    pass
+
+
+class TorrentFile(Dict):
     """TorrentFile class."""
 
-    def __init__(self, data: bytes):
-        self.__data = data
+    def __init__(self, data: dict = None):
+        super().__init__()
+        if not data:
+            data = {}
+        self.update(data)
 
     @classmethod
     def load(cls, file_name: str):
@@ -22,15 +41,7 @@ class TorrentFile:
         """
         with open(file_name, 'rb') as file_handle:
             data = file_handle.read()
-        return cls(data)
-
-    def parse(self):
-        """Runs the parser
-
-        Returns:
-            dict
-        """
-        return bdecode(self.__data)
+        return cls(bdecode(data))
 
 
 def bdecode(data: bytes):
@@ -122,19 +133,3 @@ def bdecode(data: bytes):
             raise Exception(c)
 
     return read_next()
-
-
-class String(str):
-    pass
-
-
-class Int(int):
-    pass
-
-
-class List(list):
-    pass
-
-
-class Dict(dict):
-    pass

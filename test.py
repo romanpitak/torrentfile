@@ -7,4 +7,4 @@ from torrentfile import TorrentFile
 # t = TorrentFile('./data/lm.torrent')
 t = TorrentFile.load('./data/t.torrent')
 
-pprint.pprint(t.parse(), compact=True, width=120)
+pprint.pprint(t, compact=True, width=120)
