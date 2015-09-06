@@ -6,22 +6,25 @@ __version__ = "$Revision$"
 
 
 class TorrentFile:
-    """TorrentFile class.
+    """TorrentFile class."""
 
-    """
-
-    def __init__(self, file_name):
-        """TorrentFile
-
-        Args:
-            file_name (str): Torrent file name
-        """
-        with open(file_name, 'rb') as file_handle:
-            data = file_handle.read()
-
+    def __init__(self, data: bytes):
         self.__index = 0
         self.__data = data
         self.__data_length = len(data)
+
+    @classmethod
+    def load(cls, file_name: str):
+        """Load .torrent file.
+
+        Args:
+            file_name (str): Torrent file name
+        Returns:
+            TorrentFile
+        """
+        with open(file_name, 'rb') as file_handle:
+            data = file_handle.read()
+        return cls(data)
 
     def parse(self):
         """Runs the parser
