@@ -12,15 +12,13 @@ DOC_FILES = $(shell find $(DOC_SDIR) -type f)
 .PHONY: apidoc html clean
 
 $(SOURCE_DIR): $(SOURCE_FILES) $(DOC_FILES)
-	make clean
 	mkdir --parents "$(SOURCE_DIR)"
 	cp --archive "$(DOC_SDIR)/." --target-directory="$(SOURCE_DIR)"
-	make apidoc
 
 apidoc: $(SOURCE_DIR)
 	$(SPHINX_APIDOC) --force --output-dir=$(SOURCE_DIR) torrentfile/
 
-html: $(SOURCE_DIR)
+html: clean $(SOURCE_DIR) apidoc
 	@# $(SPHINX_BUILD) -b html "$(SOURCE_DIR)" "$(BUILD_DIR)/html"
 	$(SPHINX_BUILD) -b dirhtml "$(SOURCE_DIR)" "$(BUILD_DIR)/html"
 
