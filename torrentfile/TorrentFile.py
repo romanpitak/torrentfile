@@ -104,7 +104,7 @@ def bdecode(data: bytes):
         assert_next('e')
         return result
 
-    def read_dictionary():
+    def read_dict():
         assert_next('d')
         result = Dict()
         while not_('e'):
@@ -128,7 +128,7 @@ def bdecode(data: bytes):
         elif 'i' == c:
             return read_int()
         elif 'd' == c:
-            return read_dictionary()
+            return read_dict()
         else:
             raise Exception(c)
 
