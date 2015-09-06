@@ -33,7 +33,19 @@ class TorrentFile:
         return bdecode(self.__data)
 
 
-def bdecode(data: bytes, index: int = 0):
+def bdecode(data: bytes):
+    """bencode format parser
+
+    Parses a binary string according to the specification provided in
+    The BitTorrent Protocol Specification
+    http://www.bittorrent.org/beps/bep_0003.html#bencoding
+
+    Args:
+        data (bytes): .torrent file contents
+    Returns:
+        dict
+    """
+    index = 0
     data_length = len(data)
 
     def valid_index():
