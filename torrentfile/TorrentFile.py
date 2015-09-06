@@ -74,7 +74,7 @@ def bdecode(data: bytes):
         length = int(length_string)
         assert length >= 0, length
         assert_next(':')
-        return ''.join([chr(next_()) for __ in range(length)])
+        return String(''.join([chr(next_()) for __ in range(length)]))
 
     def read_int():
         assert_next('i')
@@ -83,11 +83,11 @@ def bdecode(data: bytes):
             result += chr(next_())
         assert_next('e')
         assert result.isdigit(), result
-        return int(result)
+        return Int(int(result))
 
     def read_list():
         assert_next('l')
-        result = []
+        result = List()
         while not_('e'):
             result.append(read_next())
         assert_next('e')
@@ -95,10 +95,10 @@ def bdecode(data: bytes):
 
     def read_dictionary():
         assert_next('d')
-        result = {}
+        result = Dict()
         while not_('e'):
             key = read_next()
-            assert isinstance(key, str), key
+            assert isinstance(key, String), key
             value = read_next()
             if 'pieces' == key:  # TODO deal with the pieces
                     value = None
@@ -123,3 +123,18 @@ def bdecode(data: bytes):
 
     return read_next()
 
+
+class String(str):
+    pass
+
+
+class Int(int):
+    pass
+
+
+class List(list):
+    pass
+
+
+class Dict(dict):
+    pass
