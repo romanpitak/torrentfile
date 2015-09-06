@@ -6,19 +6,41 @@ __version__ = "$Revision$"
 
 
 class String(str):
-    pass
+
+    def bencode(self):
+        return '{}:{}'.format(len(self), self)
 
 
 class Int(int):
-    pass
+
+    def bencode(self):
+        return 'i{}e'.format(self)
 
 
 class List(list):
-    pass
+
+    def bencode(self):
+        content = ''.join([item.bencode() for item in self])
+        return 'l{}e'.format(content)
 
 
 class Dict(dict):
-    pass
+
+    def bencode(self):
+        """bencode the object
+
+        Represents the object as a string adhering to the specification
+        provided in The BitTorrent Protocol Specification
+        http://www.bittorrent.org/beps/bep_0003.html#bencoding
+
+        Returns:
+            str
+        """
+        content = ''.join([
+            key.bencode() + self[key].bencode()
+            for key in sorted(self.keys())  # TODO verify sorting
+        ])
+        return 'd{}e'.format(content)
 
 
 class TorrentFile(Dict):
@@ -112,7 +134,7 @@ def bdecode(data: bytes):
             assert isinstance(key, String), key
             value = read_next()
             if 'pieces' == key:  # TODO deal with the pieces
-                    value = None
+                    value = String()
             result[key] = value
         assert_next('e')
         return result
