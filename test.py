@@ -8,3 +8,7 @@ from torrentfile import TorrentFile
 t = TorrentFile.load('./data/t.torrent')
 
 pprint.pprint(t, compact=True, width=120)
+
+t.save('./data/out.torrent')
+
+pprint.pprint(TorrentFile.load('./data/out.torrent'), compact=True, width=120)

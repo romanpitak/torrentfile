@@ -80,6 +80,19 @@ class TorrentFile(Dict):
             data = file_handle.read()
         return cls(bdecode(data))
 
+    def save(self, file_name: str):
+        """Save the object into a .torrent file.
+
+        Right now, this only works for testing purposes
+        (or if you don't change any files).
+        If files are changed, new hashes will need to be generated.
+
+        Args:
+            file_name (str): Torrent file name
+        """
+        with open(file_name, 'wb') as file_handle:
+            file_handle.write(bytes([ord(c) for c in self.bencode()]))
+
 
 def bdecode(data: bytes):
     """bencode format parser
