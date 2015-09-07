@@ -1,0 +1,4 @@
+[submodule "html"]
+	path = html
+	url = git@github.com:romanpitak/torrentfile.git
+	branch = gh-pages
