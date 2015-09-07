@@ -1,0 +1,22 @@
+torrentfile package
+===================
+
+Submodules
+----------
+
+torrentfile.TorrentFile module
+------------------------------
+
+.. automodule:: torrentfile.TorrentFile
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: torrentfile
+    :members:
+    :undoc-members:
+    :show-inheritance:

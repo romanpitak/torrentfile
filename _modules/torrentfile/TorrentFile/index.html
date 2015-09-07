@@ -1,0 +1,278 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>torrentfile.TorrentFile &mdash; torrentfile $Revision$ documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '$Revision$',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="torrentfile $Revision$ documentation" href="../../../" />
+    <link rel="up" title="Module code" href="../../" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for torrentfile.TorrentFile</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">TorrentFile module</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">pprint</span>
+
+
+<div class="viewcode-block" id="DataBaseClass"><a class="viewcode-back" href="../../../torrentfile/#torrentfile.TorrentFile.DataBaseClass">[docs]</a><span class="k">class</span> <span class="nc">DataBaseClass</span><span class="p">:</span>
+
+<div class="viewcode-block" id="DataBaseClass.bencode"><a class="viewcode-back" href="../../../torrentfile/#torrentfile.TorrentFile.DataBaseClass.bencode">[docs]</a>    <span class="k">def</span> <span class="nf">bencode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;bencode the object</span>
+
+<span class="sd">        Represents the object as a string adhering to the specification</span>
+<span class="sd">        provided in The BitTorrent Protocol Specification</span>
+<span class="sd">        http://www.bittorrent.org/beps/bep_0003.html#bencoding</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compact</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="String"><a class="viewcode-back" href="../../../torrentfile/#torrentfile.TorrentFile.String">[docs]</a><span class="k">class</span> <span class="nc">String</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">DataBaseClass</span><span class="p">):</span>
+
+<div class="viewcode-block" id="String.bencode"><a class="viewcode-back" href="../../../torrentfile/#torrentfile.TorrentFile.String.bencode">[docs]</a>    <span class="k">def</span> <span class="nf">bencode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;{}:{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="bp">self</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="Int"><a class="viewcode-back" href="../../../torrentfile/#torrentfile.TorrentFile.Int">[docs]</a><span class="k">class</span> <span class="nc">Int</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">DataBaseClass</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Int.bencode"><a class="viewcode-back" href="../../../torrentfile/#torrentfile.TorrentFile.Int.bencode">[docs]</a>    <span class="k">def</span> <span class="nf">bencode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;i{}e&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="List"><a class="viewcode-back" href="../../../torrentfile/#torrentfile.TorrentFile.List">[docs]</a><span class="k">class</span> <span class="nc">List</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">DataBaseClass</span><span class="p">):</span>
+
+<div class="viewcode-block" id="List.bencode"><a class="viewcode-back" href="../../../torrentfile/#torrentfile.TorrentFile.List.bencode">[docs]</a>    <span class="k">def</span> <span class="nf">bencode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">item</span><span class="o">.</span><span class="n">bencode</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">])</span>
+        <span class="k">return</span> <span class="s">&#39;l{}e&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="Pieces"><a class="viewcode-back" href="../../../torrentfile/#torrentfile.TorrentFile.Pieces">[docs]</a><span class="k">class</span> <span class="nc">Pieces</span><span class="p">(</span><span class="n">String</span><span class="p">,</span> <span class="n">DataBaseClass</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">String</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="o">+</span><span class="mi">20</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="mi">20</span><span class="p">)]</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;PIECES...&#39;</span>
+
+</div>
+<div class="viewcode-block" id="Dict"><a class="viewcode-back" href="../../../torrentfile/#torrentfile.TorrentFile.Dict">[docs]</a><span class="k">class</span> <span class="nc">Dict</span><span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">DataBaseClass</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s">&#39;pieces&#39;</span> <span class="o">==</span> <span class="n">key</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Pieces</span><span class="p">):</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">Pieces</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__setitem__</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Dict.bencode"><a class="viewcode-back" href="../../../torrentfile/#torrentfile.TorrentFile.Dict.bencode">[docs]</a>    <span class="k">def</span> <span class="nf">bencode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+            <span class="n">key</span><span class="o">.</span><span class="n">bencode</span><span class="p">()</span> <span class="o">+</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">bencode</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>  <span class="c"># TODO verify sorting</span>
+        <span class="p">])</span>
+        <span class="k">return</span> <span class="s">&#39;d{}e&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="TorrentFile"><a class="viewcode-back" href="../../../torrentfile/#torrentfile.TorrentFile.TorrentFile">[docs]</a><span class="k">class</span> <span class="nc">TorrentFile</span><span class="p">(</span><span class="n">Dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;TorrentFile class.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="TorrentFile.load"><a class="viewcode-back" href="../../../torrentfile/#torrentfile.TorrentFile.TorrentFile.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Load .torrent file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            file_name (str): Torrent file name</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            TorrentFile</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_handle</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">file_handle</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">bdecode</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="TorrentFile.save"><a class="viewcode-back" href="../../../torrentfile/#torrentfile.TorrentFile.TorrentFile.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Save the object into a .torrent file.</span>
+
+<span class="sd">        Right now, this only works for testing purposes</span>
+<span class="sd">        (or if you don&#39;t change any files).</span>
+<span class="sd">        If files are changed, new hashes will need to be generated.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            file_name (str): Torrent file name</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_handle</span><span class="p">:</span>
+            <span class="n">file_handle</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">bytes</span><span class="p">([</span><span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bencode</span><span class="p">()]))</span>
+
+</div></div>
+<div class="viewcode-block" id="bdecode"><a class="viewcode-back" href="../../../torrentfile/#torrentfile.TorrentFile.bdecode">[docs]</a><span class="k">def</span> <span class="nf">bdecode</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;bencode format parser</span>
+
+<span class="sd">    Parses a binary string according to the specification provided in</span>
+<span class="sd">    The BitTorrent Protocol Specification</span>
+<span class="sd">    http://www.bittorrent.org/beps/bep_0003.html#bencoding</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data (bytes): .torrent file contents</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">data_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">valid_index</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="n">data_length</span>
+
+    <span class="k">def</span> <span class="nf">next_</span><span class="p">():</span>
+        <span class="n">nonlocal</span> <span class="n">index</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">valid_index</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;EOF&#39;</span><span class="p">)</span>
+        <span class="n">return_index</span> <span class="o">=</span> <span class="n">index</span>
+        <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="n">return_index</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">assert_next</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">next_</span><span class="p">())</span>
+        <span class="k">assert</span> <span class="n">value</span> <span class="o">==</span> <span class="n">c</span><span class="p">,</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">not_</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">valid_index</span><span class="p">()</span> <span class="ow">and</span> <span class="n">value</span> <span class="o">!=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">read_string</span><span class="p">():</span>
+        <span class="n">length_string</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="k">while</span> <span class="n">valid_index</span><span class="p">()</span> <span class="ow">and</span> <span class="nb">chr</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">index</span><span class="p">])</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+            <span class="n">length_string</span> <span class="o">+=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">next_</span><span class="p">())</span>
+        <span class="k">assert</span> <span class="n">length_string</span><span class="o">.</span><span class="n">isdigit</span><span class="p">(),</span> <span class="n">length_string</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">length_string</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">length</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">length</span>
+        <span class="n">assert_next</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">String</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">chr</span><span class="p">(</span><span class="n">next_</span><span class="p">())</span> <span class="k">for</span> <span class="n">__</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">length</span><span class="p">)]))</span>
+
+    <span class="k">def</span> <span class="nf">read_int</span><span class="p">():</span>
+        <span class="n">assert_next</span><span class="p">(</span><span class="s">&#39;i&#39;</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="k">while</span> <span class="n">not_</span><span class="p">(</span><span class="s">&#39;e&#39;</span><span class="p">):</span>
+            <span class="n">result</span> <span class="o">+=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">next_</span><span class="p">())</span>
+        <span class="n">assert_next</span><span class="p">(</span><span class="s">&#39;e&#39;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">isdigit</span><span class="p">(),</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="n">Int</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">read_list</span><span class="p">():</span>
+        <span class="n">assert_next</span><span class="p">(</span><span class="s">&#39;l&#39;</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">List</span><span class="p">()</span>
+        <span class="k">while</span> <span class="n">not_</span><span class="p">(</span><span class="s">&#39;e&#39;</span><span class="p">):</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">read_next</span><span class="p">())</span>
+        <span class="n">assert_next</span><span class="p">(</span><span class="s">&#39;e&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">def</span> <span class="nf">read_dict</span><span class="p">():</span>
+        <span class="n">assert_next</span><span class="p">(</span><span class="s">&#39;d&#39;</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">()</span>
+        <span class="k">while</span> <span class="n">not_</span><span class="p">(</span><span class="s">&#39;e&#39;</span><span class="p">):</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">read_next</span><span class="p">()</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span> <span class="n">key</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">read_next</span><span class="p">()</span>
+        <span class="n">assert_next</span><span class="p">(</span><span class="s">&#39;e&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">def</span> <span class="nf">read_next</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">valid_index</span><span class="p">():</span>
+            <span class="k">return</span> <span class="bp">None</span>  <span class="c"># TODO raise here?</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">read_string</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="s">&#39;l&#39;</span> <span class="o">==</span> <span class="n">c</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">read_list</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="s">&#39;i&#39;</span> <span class="o">==</span> <span class="n">c</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">read_int</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="s">&#39;d&#39;</span> <span class="o">==</span> <span class="n">c</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">read_dict</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">read_next</span><span class="p">()</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../">Documentation overview</a><ul>
+  <li><a href="../../">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search/" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Roman Piták.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
