@@ -1,45 +1,12 @@
 """
 TorrentFile module
 """
-__author__ = "Roman Piták <roman@pitak.net>"
-__version__ = "$Revision$"
 
 
-class String(str):
-
-    def bencode(self):
-        return '{}:{}'.format(len(self), self)
+import pprint
 
 
-class Int(int):
-
-    def bencode(self):
-        return 'i{}e'.format(self)
-
-
-class List(list):
-
-    def bencode(self):
-        content = ''.join([item.bencode() for item in self])
-        return 'l{}e'.format(content)
-
-
-class Pieces(String):
-
-    def __init__(self, data: String):
-        super().__init__()
-        self.data = [data[x:x+20] for x in range(0, len(data), 20)]
-
-    def __repr__(self):
-        return 'PIECES...'
-
-
-class Dict(dict):
-
-    def __setitem__(self, key, value):
-        if 'pieces' == key and not isinstance(value, Pieces):
-            value = Pieces(value)
-        super().__setitem__(key, value)
+class DataBaseClass:
 
     def bencode(self) -> str:
         """bencode the object
@@ -51,6 +18,49 @@ class Dict(dict):
         Returns:
             str
         """
+        pass
+
+    def __str__(self):
+        return pprint.pformat(self, compact=True, width=120)
+
+
+class String(str, DataBaseClass):
+
+    def bencode(self):
+        return '{}:{}'.format(len(self), self)
+
+
+class Int(int, DataBaseClass):
+
+    def bencode(self):
+        return 'i{}e'.format(self)
+
+
+class List(list, DataBaseClass):
+
+    def bencode(self):
+        content = ''.join([item.bencode() for item in self])
+        return 'l{}e'.format(content)
+
+
+class Pieces(String, DataBaseClass):
+
+    def __init__(self, data: String):
+        super().__init__()
+        self.data = [data[x:x+20] for x in range(0, len(data), 20)]
+
+    def __repr__(self):
+        return 'PIECES...'
+
+
+class Dict(dict, DataBaseClass):
+
+    def __setitem__(self, key, value):
+        if 'pieces' == key and not isinstance(value, Pieces):
+            value = Pieces(value)
+        super().__setitem__(key, value)
+
+    def bencode(self):
         content = ''.join([
             key.bencode() + self[key].bencode()
             for key in sorted(self.keys())  # TODO verify sorting

@@ -8,8 +8,11 @@ Usage
 
 .. code:: python
 
-    >>> t = TorrentFile.load('./path/to/some.torrent')
-    >>> pprint(t, compact=True, width=120)
+    t = TorrentFile.load('./path/to/some.torrent')
+    print(t)
+
+.. code:: text
+
     {'announce': 'http://bt1.archive.org:6969/announce',
      'announce-list': [['http://bt1.archive.org:6969/announce'], ['http://bt2.archive.org:6969/announce']],
      'comment': 'This content hosted at the Internet Archive at '
